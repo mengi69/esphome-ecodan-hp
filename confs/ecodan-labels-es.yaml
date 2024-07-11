@@ -28,7 +28,7 @@ substitutions:
   heatpump_switch_force_dhw: Fuerza ACS
   heatpump_switch_power_mode: Bomba de Calor
   heatpump_switch_holiday: Modo Vacaciones
-  wifi_signal_proc: %Señal WiFi
+  wifi_signal_proc: Señal WiFi %
   wifi_signal_db: Señal WiFi dB
   z1_flow_temp_target: Valor Consigna H/C Zona 1
   status_prohibit_cool_z1: Prohibir Estado Enfriamiento Zona 1
