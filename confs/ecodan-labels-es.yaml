@@ -1,0 +1,88 @@
+substitutions:
+  status_three_way_valve: Valvula de 3 vias
+  status_three_way_valve_2: Valvula de 3 vias 2
+  heatpump_climate_dhw: ACS Clima
+  dhw_temp: ACS Temperatura Actual
+  dhw_secondary_temp: ACS Temperatura Secundaria
+  status_dhw_forced: Forzar ACS
+  dhw_flow_temp_drop: Caida Temperatura Max ACS
+  status_prohibit_dhw: Prohibicion ACS
+  dhw_flow_temp_target: Valor Consigna ACS
+  status_dhw: ACS
+  esp_ip: ESP IP
+  internal_esp_temperature: Temperatura Interna ESP
+  esp_sidd: ESP SSID
+  uptime: Tiempo Actividad ESP
+  esp_version: Version ESP
+  restart_button: Reinicio ESP
+  status_in1_request: Termostato In1 
+  status_in6_request: Termostato 2 In6
+  status_in5_request: Termostato Exterior In5
+  heatpump_select_dhw_mode: Modo ACS
+  of: "Apagado"
+  normal: Normal
+  eco: Eco
+  version: Version ESP
+  led_brightness: Brillo LED
+  led_switch: LED
+  heatpump_switch_force_dhw: Fuerza ACS
+  heatpump_switch_power_mode: Bomba de Calor
+  heatpump_switch_holiday: Modo Vacaciones
+  wifi_signal_proc: %Señal WiFi
+  wifi_signal_db: Señal WiFi dB
+  z1_flow_temp_target: Valor Consigna H/C Zona 1
+  status_prohibit_cool_z1: Prohibir Estado Enfriamiento Zona 1
+  status_prohibit_heating_z1: Prohibir Calefaccion Zona 1
+  heatpump_climate_z1: Clima Zona 1
+  z1_room_temp_target: Valor Consigna Sala Zona 1
+  z1_room_temp: Temperatura Sala Zona 1
+  heatpump_number_z2_set_flow_temperature: Consigna H/C Zona 2
+  z2_flow_temp_target: Valor Consigna H/C Zona 2
+  status_prohibit_cool_z2: Prohibir Estado Enfriamiento Zona 2
+  status_prohibit_heating_z2: Prohibir Calefaccion Zona 2
+  heatpump_number_z2_set_room_temperature: Punto Consigna Sala Zona 2
+  heatpump_climate_z2: Clima Zona 2
+  z2_room_temp_target: Valor Consigna Sala Zona 2
+  z2_room_temp: Temperatura Sala Zona 1
+  boiler_flow_temp: Temperatura Flujo Caldera
+  boiler_return_temp: Temperatura Retorno Caldera
+  status_booster: Calentador Refuerzo
+  compressor_frequency: Frecuencia Compresor
+  controller_version_text: Version Controlador
+  cool_consumed: Consumo Refrigeracion
+  cool_cop: COP Refrigeracion
+  cool_delivered: Entrega Refrigeracion
+  status_defrost: Descarche
+  dhw_consumed: Consumo ACS
+  dhw_cop: COP ACS
+  dhw_delivered: Entrega ACS
+  hp_feed_temp: Temperatura Alimentacion
+  flow_rate: Gasto
+  heat_source_text: Fuente de Calor
+  heatpump: Bomba de Calor
+  immersion_heater: Calentador de Inmersion
+  booster_heater: Calentador de Refuerzo
+  immersion_and_booster_heater: Calentador de Inmersion y Refuerzo
+  boiler: Caldera
+  heating_consumed: Consumo Calefaccion
+  heating_cop: COP Calefaccion
+  heating_delivered: Entrega Calefaccion
+  status_holiday: Modo Vacaciones
+  status_immersion: Calentador de Inmersion
+  legionella_prevention_temp: Temperatura Prevencion Legionela
+  heatpump_select_operating_mode: Modo Funcionamiento Seleccionado
+  heat_target_temperature: Temperatura Objetivo Calefaccion
+  heat_flow_temperature: Temperatura Flujo Calefaccion
+  heat_compensation_curve: Curva Compensacion Calefaccion
+  cool_target_temperature: Temperatura Objetivo Refrigeracion
+  cool_flow_temperature: Temperatura Flujo Refrigeracion
+  runtime: Tiempo Ejecucion Operativo
+  status_operation: Modo Operacion
+  output_power: Potencia de Salida
+  computed_output_power: Potencia de Salida Estimada
+  outside_temp: Temperatura Exterior
+  hp_refrigerant_temp: Temperatura Liquido Refrigerante
+  hp_refrigerant_condensing_temp: Temperatura Condensacion Refrigerante
+  hp_return_temp: Temperatura Retorno Refrigerante
+  status_water_pump: Estado Bomba de Agua
+  status_water_pump_2: Estado Bomba de Agua 2
