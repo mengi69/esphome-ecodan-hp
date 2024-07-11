@@ -21,7 +21,7 @@ light:
     id: led
     internal: true
     rgb_order: GRB
-    pin: 35
+    pin: 21
     num_leds: 4
     # RMT 0 channels will be occupied by IR
     rmt_channel: 1
