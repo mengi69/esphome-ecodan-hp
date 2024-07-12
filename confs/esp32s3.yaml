@@ -9,10 +9,15 @@ esphome:
           id: ecodan_led_switch
 
 esp32:
-  board: esp32-s3-devkitc-1
+  board: esp32dev
   framework:
     type: arduino
-    version: latest
+    
+# esp32:
+#  board: esp32-s3-devkitc-1
+#  framework:
+#    type: arduino
+#    version: latest
 
 light:
 #G35=RGB WS2812C-2020
@@ -21,8 +26,8 @@ light:
     id: led
     internal: true
     rgb_order: GRB
-    pin: 21
-    num_leds: 4
+    pin: 2
+    num_leds: 1
     # RMT 0 channels will be occupied by IR
     rmt_channel: 1
     chipset: ws2812
