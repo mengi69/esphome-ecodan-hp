@@ -1,5 +1,5 @@
 substitutions:
-  name: Aerotermia Ecodan
+  name: Aerotermia_Ecodan
   friendlyName: Aerotermia Ecodan
 # Interruptor de Calefaccion/Refrigeracion Aerotermia
 # available modes: HEAT_ROOM_TEMP, HEAT_FLOW_TEMP, HEAT_COMPENSATION_CURVE, COOL_ROOM_TEMP, COOL_FLOW_TEMP
