@@ -1,5 +1,4 @@
-# Switch principal
-switch:
+ switch:
   - platform: template
     name: server control - enable/disable
     id: heatpump_switch_server_control_mode
@@ -12,149 +11,64 @@ switch:
       - lambda: |-
          id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::SERVER_CONTROL, false);
 
-# Sensor binario para monitorear el estado del switch principal
-binary_sensor:
-  - platform: template
-    name: "Server Control Active"
-    id: server_control_active
-    lambda: |-
-      if (id(heatpump_switch_server_control_mode).state) {
-        return true;
-      } else {
-        return false;
-      }
-    filters:
-      - delayed_on: 10ms
-      - delayed_off: 10ms
-
-# Switches adicionales
-switch:
   - platform: template
     name: server control - prohibit DHW
     id: heatpump_switch_server_control_prohibit_dhw
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
-    lambda: |-
-      if (id(server_control_active).state) {
-        return true;
-      } else {
-        return false;
-      }
     turn_on_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_DHW, true);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_DHW, true);
     turn_off_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_DHW, false);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_DHW, false);
 
   - platform: template
     name: server control - zone 1 prohibit heating
     id: heatpump_switch_server_control_prohibit_z1_heating
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
-    lambda: |-
-      if (id(server_control_active).state) {
-        return true;
-      } else {
-        return false;
-      }
     turn_on_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_HEATING, true);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_HEATING, true);
     turn_off_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_HEATING, false);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_HEATING, false);
+
 
   - platform: template
     name: server control - zone 1 prohibit cooling
     id: heatpump_switch_server_control_prohibit_z1_cooling
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
-    lambda: |-
-      if (id(server_control_active).state) {
-        return true;
-      } else {
-        return false;
-      }
     turn_on_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_COOLING, true);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_COOLING, true);
     turn_off_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_COOLING, false);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z1_COOLING, false);
 
   - platform: template
     name: server control - zone 2 prohibit heating
     id: heatpump_switch_server_control_prohibit_z2_heating
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
-    lambda: |-
-      if (id(server_control_active).state) {
-        return true;
-      } else {
-        return false;
-      }
     turn_on_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_HEATING, true);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_HEATING, true);
     turn_off_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_HEATING, false);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_HEATING, false);
+
 
   - platform: template
     name: server control - zone 2 prohibit cooling
     id: heatpump_switch_server_control_prohibit_z2_cooling
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
-    lambda: |-
-      if (id(server_control_active).state) {
-        return true;
-      } else {
-        return false;
-      }
     turn_on_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_COOLING, true);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_COOLING, true);
     turn_off_action:
-      - if:
-          condition:
-            binary_sensor.is_on: server_control_active
-          then:
-            - lambda: |-
-                id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_COOLING, false);
+      - lambda: |-
+         id(ecodan_instance).set_controller_mode(esphome::ecodan::CONTROLLER_FLAG::PROHIBIT_Z2_COOLING, false);
