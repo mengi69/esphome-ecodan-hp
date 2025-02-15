@@ -1,15 +1,4 @@
-# estimated heatpump output
 sensor:
-  - name: "heatpump_computed_power_output"
-    unique_id: "heatpump_computed_power_output"
-    unit_of_measurement: "kW"
-    state: >-
-      {% set feed_temp = states('sensor.ecodan_heatpump_feed_temp') | default(0) | float %}
-      {% set return_temp = states('sensor.ecodan_heatpump_return_temp') | default(0) | float %}
-      {% set flow = states('sensor.ecodan_heatpump_flow_rate') | default(0) | float %}
-      {% set freq = states('sensor.ecodan_heatpump_compressor_frequency') | default(0) | float %}
-      {{ 0 if freq == 0 else (flow/60.0 * (feed_temp - return_temp) * 4.18) | float | round(2) }}
-
 # if you have a kWh meter
   - name: "realtime_heatpump_cop"
     unique_id: "realtime_heatpump_cop"
@@ -20,7 +9,7 @@ sensor:
       {% set freq = states('sensor.ecodan_heatpump_compressor_frequency') | default(0) | float %}
       {{ 0 if (pin == 0 or freq == 0) else ((1000*pout) / pin) | float | round(2) }}
 
-# compute condensation temp  
+# compute condensation temp  example
   - name: "thermostat_condensation_room"
     unique_id: "thermostat_condensation_room"
     unit_of_measurement: "°C"
@@ -29,3 +18,63 @@ sensor:
       {% set rh = state_attr('climate.room' , 'current_humidity') | default(0) | float %}
       {% set a = log(rh / 100) + (17.62 * t / (243.12 + t)) | default(0) | float %}
       {{ (243.12 * a / (17.62 - a)) | float | round(1) }}
+
+# monthly cop & total increasing counters (still have issues with restarting)
+  - name: Heatpump total heating consumed
+    unique_id: heatpump_total_heating_consumed
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state: "{{ states('sensor.ecodan_heatpump_heating_consumed')|float }}"
+    availability: "{{ states('sensor.ecodan_heatpump_heating_consumed') not in ['unknown', 'unavailable', 'none'] }}"
+  - name: Heatpump total heating produced
+    unique_id: heatpump_total_heating_produced
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state: "{{ states('sensor.ecodan_heatpump_heating_delivered')|float }}"
+    availability: "{{ states('sensor.ecodan_heatpump_heating_delivered') not in ['unknown', 'unavailable', 'none'] }}"
+
+  - name: Heatpump total cool consumed
+    unique_id: heatpump_total_cool_consumed
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state: "{{ states('sensor.ecodan_heatpump_cool_consumed')|float }}"
+    availability: "{{ states('sensor.ecodan_heatpump_cool_consumed') not in ['unknown', 'unavailable', 'none'] }}"
+  - name: Heatpump total cool produced
+    unique_id: heatpump_total_cool_produced
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state: "{{ states('sensor.ecodan_heatpump_cool_delivered')|float }}"
+    availability: "{{ states('sensor.ecodan_heatpump_cool_delivered') not in ['unknown', 'unavailable', 'none'] }}"
+
+  - name: Heatpump total dhw consumed
+    unique_id: heatpump_total_dhw_consumed
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state: "{{ states('sensor.ecodan_heatpump_dhw_consumed')|float }}"
+    availability: "{{ states('sensor.ecodan_heatpump_dhw_consumed') not in ['unknown', 'unavailable', 'none'] }}"
+  - name: Heatpump total dhw produced
+    unique_id: heatpump_total_dhw_produced
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state: "{{ states('sensor.ecodan_heatpump_dhw_delivered')|float }}"
+    availability: "{{ states('sensor.ecodan_heatpump_dhw_delivered') not in ['unknown', 'unavailable', 'none'] }}"
+
+  - unique_id: heatpump_monthly_heating_cop
+    unit_of_measurement: ""
+    state: >-
+      {% set consumed = states('sensor.monthly_heating_consumed') | default(0) | float %}
+      {% set produced = states('sensor.monthly_heating_produced') | default(0) | float %}
+      {{ 0 if (consumed == 0 or produced == 0) else (produced / consumed) | float | round(2) }}
+  - unique_id: heatpump_monthly_cool_cop
+    unit_of_measurement: ""
+    state: >-
+      {% set consumed = states('sensor.monthly_cool_consumed') | default(0) | float %}
+      {% set produced = states('sensor.monthly_cool_produced') | default(0) | float %}
+      {{ 0 if (consumed == 0 or produced == 0) else (produced / consumed) | float | round(2) }}
+  - unique_id: heatpump_monthly_dhw_cop
+    unit_of_measurement: ""
+    state: >-
+      {% set consumed = states('sensor.monthly_dhw_consumed') | default(0) | float %}
+      {% set produced = states('sensor.monthly_dhw_produced') | default(0) | float %}
+      {{ 0 if (consumed == 0 or produced == 0) else (produced / consumed) | float | round(2) }}
+

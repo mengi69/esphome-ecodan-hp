@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import text_sensor
 from esphome.const import CONF_ID
 from esphome.const import (
-    ENTITY_CATEGORY_NONE
+    ENTITY_CATEGORY_NONE, ENTITY_CATEGORY_DIAGNOSTIC
 )
 
 from . import ECODAN, CONF_ECODAN_ID
@@ -18,27 +18,22 @@ CONFIG_SCHEMA = cv.Schema(
             icon="mdi:new-box",
             entity_category=ENTITY_CATEGORY_NONE,
         ),
+        cv.Optional("controller_firmware_text"): text_sensor.text_sensor_schema(
+            icon="mdi:new-box",
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+        ),        
         cv.Optional("heat_source_text"): text_sensor.text_sensor_schema(
             icon="mdi:fire",
             entity_category=ENTITY_CATEGORY_NONE,
         ),
-        cv.Optional("status_dhw"): text_sensor.text_sensor_schema(
-            icon="mdi:water-boiler",
-            entity_category=ENTITY_CATEGORY_NONE,
+        cv.Optional("fault_code_text"): text_sensor.text_sensor_schema(
+            icon="mdi:fire",
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
         ),
-        cv.Optional("status_heating_cooling"): text_sensor.text_sensor_schema(
-            icon="mdi:thermostat",
-            entity_category=ENTITY_CATEGORY_NONE,
+        cv.Optional("refrigerant_error_code_text"): text_sensor.text_sensor_schema(
+            icon="mdi:fire",
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
         ),
-        cv.Optional("status_power"): text_sensor.text_sensor_schema(
-            icon="mdi:power",
-            entity_category=ENTITY_CATEGORY_NONE,
-        ),
-        cv.Optional("status_operation"): text_sensor.text_sensor_schema(
-            icon="mdi:power",
-            entity_category=ENTITY_CATEGORY_NONE,
-        ),
-
     }).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):

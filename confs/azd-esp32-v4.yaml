@@ -1,5 +1,6 @@
+# For use with: https://docs.platformio.org/en/stable/boards/espressif32/az-delivery-devkit-v4.html
 esp32:
-  board: esp32dev
+  board: az-delivery-devkit-v4
   framework:
     type: esp-idf
     version: recommended
@@ -10,12 +11,12 @@ esp32:
 uart:
   id: uart_ecodan
   rx_pin:
-    number: GPIO2
+    number: GPIO3 #RX pin on pcb
     mode:
       input: true
       pullup: true
   tx_pin:
-    number: GPIO1
+    number: GPIO1 #TX pin on pcb
     mode:
       output: true
   baud_rate: 2400

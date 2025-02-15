@@ -1,31 +1,34 @@
 # ESPHome Ecodan heatpump
-It was based on https://github.com/rbroker/ecodan-ha-local. I've also managed to reverse engineer quite some additional properties and controls.
-- 0x03 : error codes
-- 0x05 : heat source
-- 0x0B : refrigerant liquid temperature
-- 0x10 : In1, In5, In6 thermostat status
-- 0x14 : booster / immersion heater states
-- 0x15 : pump status
-- 0x28 : forced dhw status 
-- 0x35 : room temp setpoint (signed) with flags
-- 0xC9 : configuration command. It reports back controller version and much more, need more investigation.
+ESPHome implementation of the CN105 protocal. It can operate as standalone or with slave (melcloud/procon) attached. It includes server control mode, realtime power output estimation and realtime daily energy counters. 
 
-# experimental server control + prohibit dhw
-In sever control mode, the prohibit flags can be set. You can enable it by uncommenting the `sever-control.yaml` entry in the `ecodan-esphome.yaml`.
+The remote thermostat protocol CNRF is supported by https://github.com/gekkekoe/esphome-ecodan-remote-thermostat. It implements a virtual thermostat that can be linked with any temperature sensor.
+
+# available languages
+English (default), Dutch, Italian, French, Spanish. Select the language in `ecodan-esphome.yaml` file. 
+If you want to contribute with a translation: copy the file `ecodan-labels-en.yaml` to `ecodan-labels-xx.yaml`, fill in all the labels and submit a pull request.
+
+# proxy mode: run melcloud wifi / procon as slave
+It's possible to run a melcloud wifi adapter or procon as slave. The slave unit will function as usual.
+[see proxy.md for more information](proxy.md)
+
+# server control + prohibit dhw/heating/cooling enabled by default
+In sever control mode, the prohibit flags can be set. You can disable it by commenting the `sever-control.yaml` entry in the `ecodan-esphome.yaml`.
 
 # recommended hardware
-If you don't want to solder, use one of the boards that supports 5v on the GPIO ports (basically all m5stack boards with a grove connector (HY2.0-4P) that accepts 5v as input). It also should work for airco units with cn105 connectors.
+If you don't want to solder, use one of the tested boards. [More boards that should be working](https://github.com/SwiCago/HeatPump/issues/13#issuecomment-457897457). It also should work for airco units with cn105 connectors. 
 
 Tested boards
 
 | Board | Link | Notes |
 |:---|:----:|:---|
-| m5stack Atom (ESP32 variants) | https://docs.m5stack.com/en/core/ATOM%20Lite | Grove ports on the m5stack boards have built in level shifters |
-| m5stack AtomS3 (ESP32-S3 variants) | https://docs.m5stack.com/en/core/AtomS3%20Lite | Grove ports on the m5stack boards have built in level shifters |
+| Heishamon V5 large | https://www.tindie.com/products/thehognl/heishamon-communication-pcb/ | [see proxy.md](proxy.md) |
+| M5Stack Atom Lite (ESP32 variants) | https://docs.m5stack.com/en/core/ATOM%20Lite | Grove ports used |
+| M5Stack Atom Lite (ESP32 variants) | https://docs.m5stack.com/en/core/ATOM%20Lite | Pins used [example](confs/m5stack-atom-lite-proxy.md) |
+| M5Stack Atom Lite S3 (ESP32-S3 variants) | https://docs.m5stack.com/en/core/AtomS3%20Lite | Grove ports used |
 
 Cable
 * Get one of the grove female cable and a ST PAP-05V-S connector. Remove one end of the grove connector and replace it with a ST PAP-05V-S connector. Here's an example:
-![image](https://github.com/gekkekoe/ecodan-esp32/blob/main/img/m5stack_cn105.jpg?raw=true)
+![image](https://github.com/gekkekoe/esphome-ecodan-hp/blob/main/img/m5stack_cn105.jpg?raw=true)
 
 Pin mapping (from left to right)
 | grove | cn105 |
@@ -50,7 +53,7 @@ https://www.digikey.nl/en/products/detail/jst-sales-america-inc/PAP-05V-S/759977
 
 # build esphome-ecodan-hp firmware
 ### Build via cmd line:
-* Install ESPHome https://esphome.io/guides/getting_started_command_line.html
+* Install ESPHome https://esphome.io/guides/getting_started_command_line.html. (Use [Python <= 3.12](https://github.com/esphome/issues/issues/6558) to avoid build errors on Windows)
     ```console
     python3 -m venv venv
     source venv/bin/activate
@@ -72,7 +75,9 @@ packages:
     ref: main
     refresh: always
     files: [ 
-            confs/esp32s3.yaml, # confs/esp32.yaml, for regular board
+            confs/base.yaml,            # required
+            confs/request-codes.yaml,   # disable if your unit does not support request codes (service menu)
+            confs/esp32s3.yaml,         # confs/esp32.yaml, for regular board
             confs/zone1.yaml,
             ## enable if you want to use zone 2
             #confs/zone2.yaml,
@@ -80,37 +85,29 @@ packages:
             confs/ecodan-labels-en.yaml,
             #confs/ecodan-labels-nl.yaml,
             #confs/ecodan-labels-it.yaml,
-            #confs/server-control.yaml,
+            #confs/ecodan-labels-fr.yaml,
+            #confs/ecodan-labels-es.yaml,
+            confs/server-control.yaml,
             #confs/debug.yaml,
            ]
-```
-
-* Optional: configure cooling/heating action in `ecodan-esphome.yaml`
-
-```
-####################
-# heatpump heating/cooling switch
-# available modes: HEAT_ROOM_TEMP, HEAT_FLOW_TEMP, HEAT_COMPENSATION_CURVE, COOL_ROOM_TEMP, COOL_FLOW_TEMP
-substitutions:
-  default_heating_switch_mode: HEAT_COMPENSATION_CURVE
-  default_cooling_switch_mode: COOL_FLOW_TEMP
 ```
 
 * Build
 ```console
 esphome compile ecodan-esphome.yaml
 ```
-* To find the tty* where the esp32 is connected at, use `sudo dmesg | grep tty`. On my machine it was `ttyACM0` for usb-c, and `ttyUSB0` for usb-a.
+* To find the tty* where the esp32 is connected at, use `sudo dmesg | grep tty`. On my machine it was `ttyACM0` for usb-c, and `ttyUSB0` for usb-a. `tty.usbmodemxxx` for Mac and `COMXX` for Windows
+
 * Connect your esp32 via usb and flash
 ```console 
 esphome upload --device=/dev/ttyACM0 ecodan-esphome.yaml
 ```
-* You can update the firmware via de web interface of the esp after the initial flash, or use the following command to flash over the network
+* You can update the firmware via the web interface of the esp after the initial flash, or use the following command to flash over the network
 ```console 
 esphome upload --device ip_address ecodan-esphome.yaml
 ```
 
-Here's how it's connected inside my heatpump:
+Here's how it's connected inside the heatpump:
 
 ![image](https://github.com/gekkekoe/esphome-ecodan-hp/blob/main/img/m5stack_installed.jpg?raw=true)
 

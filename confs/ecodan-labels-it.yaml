@@ -8,7 +8,7 @@ substitutions:
   dhw_flow_temp_drop: ACS Isteresi
   status_prohibit_dhw: ACS Proibita
   dhw_flow_temp_target: ACS T. Richiesta
-  status_dhw: ACS
+  status_dhw_eco: ACS Eco
   esp_ip: ESP IP
   internal_esp_temperature: ESP T. Interna
   esp_sidd: ESP SSID
@@ -19,7 +19,6 @@ substitutions:
   status_in6_request: Termost. Z2 (IN6)
   status_in5_request: Termost. Esterno (IN5)
   heatpump_select_dhw_mode: Modalità ACS
-  of: "Spento"
   normal: Normale
   eco: Eco
   version: ESP Versione
@@ -34,6 +33,7 @@ substitutions:
   status_prohibit_cool_z1: Z1 Raff. Proibito
   status_prohibit_heating_z1: Z1 Risc. Proibito
   heatpump_climate_z1: Z1 Termostato
+  heatpump_climate_room_z1: Z1 temperatura
   z1_room_temp_target: Z1 T. Ambiente Desiderata
   z1_room_temp: Z1 T. Ambiente
   heatpump_number_z2_set_flow_temperature: Z2 C/F Mandata
@@ -42,13 +42,17 @@ substitutions:
   status_prohibit_heating_z2: Z2 Risc. Proibito
   heatpump_number_z2_set_room_temperature: Z2 T. Ambiente
   heatpump_climate_z2: Z2 Termostato
+  heatpump_climate_room_z2: Z2 temperatura
   z2_room_temp_target: Z2 T. Ambiente Desiderata
   z2_room_temp: Z2 T. Ambiente
+  mixing_tank_temp: Caldaia Mixing Tank
   boiler_flow_temp: Caldaia T. Mandata
   boiler_return_temp: Caldaia T. Ritorno
   status_booster: Riscaldatore Booster
   compressor_frequency: Freq. Compressore
   controller_version_text: Controller
+  controller_firmware_text: Controller Firmware
+  controller_datetime_text: Controller Date
   cool_consumed: En. Raff. Utilizzata
   cool_cop: COP Raff.
   cool_delivered: En. Raff. Prod. Ieri
@@ -57,6 +61,8 @@ substitutions:
   dhw_cop: COP ACS
   dhw_delivered: En. ACS Prod. Ieri
   hp_feed_temp: T. Mandata PDC
+  z1_feed_temp: Z1 T. Mandata PDC
+  z2_feed_temp: Z2 T. Mandata PDC
   flow_rate: Portata
   heat_source_text: Sorgente Risc.
   heatpump: PDC
@@ -64,6 +70,7 @@ substitutions:
   booster_heater: Risc. Booster
   immersion_and_booster_heater: Risc. Immersione e Booster
   boiler: Caldaia
+  energy_consumed_increasing: Energia Totale Consumata
   heating_consumed: En. Risc. Utilizzata
   heating_cop: COP Risc.
   heating_delivered: En. Risc. Prod. Ieri
@@ -76,13 +83,39 @@ substitutions:
   heat_compensation_curve: Risc. Curva Compensazione
   cool_target_temperature: Raff. T. Termost.
   cool_flow_temperature: Raff. T. Mandata Fissa
+  operation_off: "Spento"
+  hotwater: Acqua Calda
+  heating: Riscaldamento
+  cooling: Raffreddamento
+  frost_protection: protezione dal gelo
+  legionella_prevention: Prevenzione della Legionella
   runtime: Durata Funzionamento
   status_operation: Modalità Funzionamento
   output_power: En. Prod.
   computed_output_power: Stima En. Prod.
+  computed_cop: Stimato COP
+  daily_computed_output_power: Stima En. Prod. (Giorno)
+  daily_repported_input_power: Consumo Energetico Giornaliero Totale Segnalato
   outside_temp: T. Esterna
   hp_refrigerant_temp: T. Mandata Liq. Refr.
   hp_refrigerant_condensing_temp: T. Cond. Liq. Refr.
   hp_return_temp: T. Ritorno Liq. Refr.
+  z1_return_temp: Z1 T. Ritorno Liq. Refr.
+  z2_return_temp: Z2 T. Ritorno Liq. Refr.
   status_water_pump: Pompa Circolazione
   status_water_pump_2: Pompa Circolazione 2
+  status_water_pump_3: Pompa Circolazione 3
+  status_mixing_valve: Mixing Valvola Status
+  mixing_valve_step: Mixing Valvola Step
+  status_multi_zone: Stato multizona
+  status_multi_zone_idle: Oziare
+  status_multi_zone_both: Entrambi
+  status_multi_zone_zone1: Z1 funzionante
+  status_multi_zone_zone2: Z2 funzionante
+  fault_code_text: Codice di errore
+  refrigerant_error_code_text: Liq. Refr. codice di errore
+  compressor_starts: Démarrages cumulés du compresseur
+  discharge_temp: Temperatura di scarico
+  ou_liquid_pipe_temp: Temperatura tubo liquido unità esterna 1
+  ou_two_phase_pipe_temp: Unità esterna Temperatura tubo bifase
+  fan_speed: Velocità della ventola

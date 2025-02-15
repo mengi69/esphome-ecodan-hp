@@ -11,23 +11,26 @@ esphome:
           id: ecodan_led_switch
 
 esp32:
-  board: esp32dev
+  board: m5stack-atom
   framework:
-    type: arduino
+    type: esp-idf
     version: recommended
     # Custom sdkconfig options
     sdkconfig_options:
       COMPILER_OPTIMIZATION_SIZE: y
+    # Advanced tweaking options
+    advanced:
+      ignore_efuse_mac_crc: false
 
 uart:
   id: uart_ecodan
   rx_pin:
-    number: GPIO2
+    number: GPIO26
     mode:
       input: true
       pullup: true
   tx_pin:
-    number: GPIO1
+    number: GPIO32
     mode:
       output: true
   baud_rate: 2400
@@ -48,7 +51,7 @@ light:
     id: led
     internal: true
     rgb_order: GRB
-    pin: 35
+    pin: 27
     num_leds: 4
     # RMT 0 channels will be occupied by IR
     rmt_channel: 1
@@ -61,11 +64,11 @@ binary_sensor:
     name: Buttonw
     id: g41button
     pin:
-      number: GPIO41
+      number: GPIO39
       inverted: true
       mode:
         input: true
-        pullup: true
+#        pullup: true
     internal: true
     filters:
       - delayed_off: 10ms
